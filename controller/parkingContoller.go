@@ -11,7 +11,7 @@ func createParkingLot(request []string) (model.Response, error) {
 	response := model.Response{}
 	_, err := strconv.Atoi(request[0])
 	if err != nil {
-		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size:  %v\n", request[0]))
+		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size:  %v", request[0]))
 	}
 	//call method
 

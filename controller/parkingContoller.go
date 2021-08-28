@@ -11,10 +11,7 @@ import (
 func createParkingLot(request []string) (model.Response, error) {
 	response := model.Response{}
 	size, err := strconv.Atoi(request[0])
-	if err != nil {
-		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size: %v", request[0]))
-	}
-	if size <= 0 {
+	if err != nil || size <= 0 {
 		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size: %v", request[0]))
 	}
 	err = repository.InitParking(size)
@@ -35,8 +32,8 @@ func parkCar(request []string) (model.Response, error) {
 	}
 	licensePlate := request[0]
 	age, err := strconv.Atoi(request[2])
-	if err != nil {
-		return response, errors.New("Invalid Driver Age")
+	if err != nil || age <= 0 {
+		return response, errors.New(fmt.Sprintf("Invalid Driver Age %v", request[2]))
 	}
 
 	pl := repository.GetParking()
@@ -51,8 +48,8 @@ func parkCar(request []string) (model.Response, error) {
 func slotForAge(request []string) (model.Response, error) {
 	response := model.Response{}
 	age, err := strconv.Atoi(request[0])
-	if err != nil {
-		return response, errors.New(fmt.Sprintf("Invalid age: %v\n", request[0]))
+	if err != nil || age <= 0 {
+		return response, errors.New(fmt.Sprintf("Invalid age: %v", request[0]))
 	}
 
 	pl := repository.GetParking()
@@ -82,7 +79,7 @@ func leaveSlot(request []string) (model.Response, error) {
 	response := model.Response{}
 	slot, err := strconv.Atoi(request[0])
 	if err != nil {
-		return response, errors.New(fmt.Sprintf("Invalid slot: %v\n", request[0]))
+		return response, errors.New(fmt.Sprintf("Invalid slot: %v", request[0]))
 	}
 
 	//call method
@@ -94,8 +91,8 @@ func leaveSlot(request []string) (model.Response, error) {
 func vehicleForAge(request []string) (model.Response, error) {
 	response := model.Response{}
 	age, err := strconv.Atoi(request[0])
-	if err != nil {
-		return response, errors.New(fmt.Sprintf("Invalid age: %v\n", request[0]))
+	if err != nil || age <= 0 {
+		return response, errors.New(fmt.Sprintf("Invalid age: %v", request[0]))
 	}
 	pl := repository.GetParking()
 	s := pl.VehicleForAge(age)

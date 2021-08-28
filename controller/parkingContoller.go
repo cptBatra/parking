@@ -4,18 +4,24 @@ import (
 	"errors"
 	"fmt"
 	"parking/model"
+	"parking/repository"
 	"strconv"
 )
 
 func createParkingLot(request []string) (model.Response, error) {
 	response := model.Response{}
-	_, err := strconv.Atoi(request[0])
+	size, err := strconv.Atoi(request[0])
 	if err != nil {
-		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size:  %v", request[0]))
+		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size: %v", request[0]))
 	}
-	//call method
-
-	response.Message = fmt.Sprintf("Created parking of %d slots", 10)
+	if size <= 0 {
+		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size: %v", request[0]))
+	}
+	err = repository.InitParkingLot(size)
+	if err != nil {
+		return response, err
+	}
+	response.Message = fmt.Sprintf("Created parking of %d slots", size)
 	return response, nil
 }
 
@@ -27,14 +33,18 @@ func parkCar(request []string) (model.Response, error) {
 	if len(request[0]) < 13 {
 		return response, errors.New("Invalid License Plate")
 	}
-	_, err := strconv.Atoi(request[2])
+	licensePlate := request[0]
+	age, err := strconv.Atoi(request[2])
 	if err != nil {
 		return response, errors.New("Invalid Driver Age")
 	}
 
-	//call method
-
-	response.Message = fmt.Sprintf("Car with vehicle registration number %s has been parked at slot number %d", "ka-01-hh-1234", 1)
+	pl := repository.GetParkingLot()
+	slot, err := pl.ParkCar(licensePlate, age)
+	if err != nil {
+		return response, err
+	}
+	response.Message = fmt.Sprintf("Car with vehicle registration number %s has been parked at slot number %d", licensePlate, slot)
 	return response, nil
 }
 

@@ -81,10 +81,13 @@ func leaveSlot(request []string) (model.Response, error) {
 	if err != nil {
 		return response, errors.New(fmt.Sprintf("Invalid slot: %v", request[0]))
 	}
+	pl := repository.GetParking()
+	vehicleNumber, age, err := pl.LeaveSlot(slot)
+	if err != nil {
+		return response, err
+	}
 
-	//call method
-
-	response.Message = fmt.Sprintf("Slot number %d vacated, the car with vehicle registration number %s left the space, the driver of the car was of age %d", slot, "ka-01-hh-1234", 21)
+	response.Message = fmt.Sprintf("Slot number %d vacated, the car with vehicle registration number %s left the space, the driver of the car was of age %d", slot, vehicleNumber, age)
 	return response, nil
 }
 

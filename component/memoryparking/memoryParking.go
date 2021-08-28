@@ -74,3 +74,16 @@ func (pl *parkingLot) indexForAge(age int) []int {
 	}
 	return ans
 }
+
+func (pl *parkingLot) emptySlot(id int) (vehicleNumber string, age int, err error) {
+	slot := pl.slots[id-1]
+	vehicleNumber = slot.vehicleNumber
+	age = slot.driverAge
+
+	pl.slots[id-1].id = 0
+	pl.slots[id-1].vehicleNumber = ""
+	pl.slots[id-1].driverAge = 0
+	pl.filledCount -= 1
+	pl.availableIdx = min(pl.availableIdx, id-1)
+	return
+}

@@ -5,4 +5,5 @@ type ParkingOperator interface {
 	SearchCar(licensePlate string) (bool, int)
 	SlotForAge(age int) string
 	VehicleForAge(age int) string
+	LeaveSlot(id int) (vehicleNumber string, age int, err error)
 }

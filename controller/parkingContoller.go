@@ -66,9 +66,12 @@ func slotForVehicle(request []string) (model.Response, error) {
 	if len(request[0]) < 13 {
 		return response, errors.New("Invalid License Plate")
 	}
-	//call method
-
-	response.Message = fmt.Sprintf("2")
+	pl := repository.GetParkingLot()
+	found, slot := pl.SearchCar(request[0])
+	if !found {
+		return response, errors.New("No parked car matches the query")
+	}
+	response.Message = fmt.Sprintf("%d", slot)
 	return response, nil
 }
 

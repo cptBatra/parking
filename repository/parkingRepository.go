@@ -17,8 +17,9 @@ type spot struct {
 	driverAge     int
 }
 
-type parkingOperations interface {
+type parkingOperater interface {
 	ParkCar(licensePlate string, age int) (int, error)
+	SearchCar(licensePlate string) (bool, int)
 }
 
 func GetParkingLot() *parkingLot {

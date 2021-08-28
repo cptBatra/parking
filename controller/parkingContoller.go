@@ -17,7 +17,7 @@ func createParkingLot(request []string) (model.Response, error) {
 	if size <= 0 {
 		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size: %v", request[0]))
 	}
-	err = repository.InitParkingLot(size)
+	err = repository.InitParking(size)
 	if err != nil {
 		return response, err
 	}
@@ -39,7 +39,7 @@ func parkCar(request []string) (model.Response, error) {
 		return response, errors.New("Invalid Driver Age")
 	}
 
-	pl := repository.GetParkingLot()
+	pl := repository.GetParking()
 	slot, err := pl.ParkCar(licensePlate, age)
 	if err != nil {
 		return response, err
@@ -66,7 +66,7 @@ func slotForVehicle(request []string) (model.Response, error) {
 	if len(request[0]) < 13 {
 		return response, errors.New("Invalid License Plate")
 	}
-	pl := repository.GetParkingLot()
+	pl := repository.GetParking()
 	found, slot := pl.SearchCar(request[0])
 	if !found {
 		return response, errors.New("No parked car matches the query")

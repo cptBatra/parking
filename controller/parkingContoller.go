@@ -93,12 +93,15 @@ func leaveSlot(request []string) (model.Response, error) {
 
 func vehicleForAge(request []string) (model.Response, error) {
 	response := model.Response{}
-	_, err := strconv.Atoi(request[0])
+	age, err := strconv.Atoi(request[0])
 	if err != nil {
 		return response, errors.New(fmt.Sprintf("Invalid age: %v\n", request[0]))
 	}
-	//call method
-
-	response.Message = fmt.Sprintf("ka-1234,pb-1234")
+	pl := repository.GetParking()
+	s := pl.VehicleForAge(age)
+	if len(s) < 1 {
+		return response, errors.New(fmt.Sprintf("No parked car matches the query"))
+	}
+	response.Message = fmt.Sprintf(s)
 	return response, nil
 }

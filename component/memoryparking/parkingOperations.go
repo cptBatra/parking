@@ -36,3 +36,18 @@ func (pl *parkingLot) SlotForAge(age int) string {
 	}
 	return s
 }
+
+func (pl *parkingLot) VehicleForAge(age int) string {
+	s := ""
+	idx := pl.indexForAge(age)
+	if len(idx) <= 0 {
+		return s
+	}
+	for _, i := range idx {
+		if len(s) != 0 {
+			s += ","
+		}
+		s += pl.slots[i].vehicleNumber
+	}
+	return s
+}

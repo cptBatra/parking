@@ -24,13 +24,15 @@ func (pl *parkingLot) SearchCar(licensePlate string) (bool, int) {
 
 func (pl *parkingLot) SlotForAge(age int) string {
 	s := ""
-	for _, v := range pl.slots {
-		if v.driverAge == age {
-			if s != "" {
-				s += ","
-			}
-			s += strconv.Itoa(v.id)
+	idx := pl.indexForAge(age)
+	if len(idx) <= 0 {
+		return s
+	}
+	for _, i := range idx {
+		if len(s) != 0 {
+			s += ","
 		}
+		s += strconv.Itoa(i + 1)
 	}
 	return s
 }

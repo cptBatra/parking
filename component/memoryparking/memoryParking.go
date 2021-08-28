@@ -64,3 +64,13 @@ func (pl *parkingLot) isSpaceAvailable() bool {
 	}
 	return true
 }
+
+func (pl *parkingLot) indexForAge(age int) []int {
+	ans := make([]int, 0)
+	for i, v := range pl.slots {
+		if v.driverAge == age {
+			ans = append(ans, i)
+		}
+	}
+	return ans
+}

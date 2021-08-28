@@ -3,6 +3,7 @@ package memoryparking
 import (
 	"errors"
 	"fmt"
+	"strconv"
 )
 
 func (pl *parkingLot) ParkCar(licensePlate string, age int) (int, error) {
@@ -19,4 +20,17 @@ func (pl *parkingLot) ParkCar(licensePlate string, age int) (int, error) {
 
 func (pl *parkingLot) SearchCar(licensePlate string) (bool, int) {
 	return pl.findCarLocation(licensePlate)
+}
+
+func (pl *parkingLot) SlotForAge(age int) string {
+	s := ""
+	for _, v := range pl.slots {
+		if v.driverAge == age {
+			if s != "" {
+				s += ","
+			}
+			s += strconv.Itoa(v.id)
+		}
+	}
+	return s
 }

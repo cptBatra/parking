@@ -50,14 +50,17 @@ func parkCar(request []string) (model.Response, error) {
 
 func slotForAge(request []string) (model.Response, error) {
 	response := model.Response{}
-	_, err := strconv.Atoi(request[0])
+	age, err := strconv.Atoi(request[0])
 	if err != nil {
 		return response, errors.New(fmt.Sprintf("Invalid age: %v\n", request[0]))
 	}
 
-	//call Method
-
-	response.Message = fmt.Sprintf("1,2")
+	pl := repository.GetParking()
+	s := pl.SlotForAge(age)
+	if len(s) < 1 {
+		return response, errors.New(fmt.Sprintf("No parked car matches the query"))
+	}
+	response.Message = fmt.Sprintf(s)
 	return response, nil
 }
 

@@ -54,8 +54,17 @@ func (pl *parkingLot) addCar(licensePlate string, age int) int {
 	}
 	pl.slots[pl.availableIdx] = slot
 	pl.filledCount += 1
-	pl.availableIdx += 1
-	return pl.availableIdx
+	pl.availableIdx = pl.findEmptySlotIdx(pl.availableIdx)
+	return slot.id
+}
+
+func (pl *parkingLot) findEmptySlotIdx(idx int) int {
+	for ; idx < pl.size; idx++ {
+		if pl.slots[idx].id == 0 {
+			return idx
+		}
+	}
+	return idx
 }
 
 func (pl *parkingLot) isSpaceAvailable() bool {

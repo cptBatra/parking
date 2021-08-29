@@ -44,7 +44,7 @@ func parkCar(request []string) (model.Response, error) {
 	if err != nil {
 		return response, err
 	}
-	response.Message = fmt.Sprintf("Car with vehicle registration number %s has been parked at slot number %d", licensePlate, slot)
+	response.Message = fmt.Sprintf("Car with vehicle registration number \"%s\" has been parked at slot number %d", licensePlate, slot)
 	return response, nil
 }
 
@@ -99,7 +99,7 @@ func leaveSlot(request []string) (model.Response, error) {
 		return response, err
 	}
 
-	response.Message = fmt.Sprintf("Slot number %d vacated, the car with vehicle registration number %s left the space, the driver of the car was of age %d", slot, vehicleNumber, age)
+	response.Message = fmt.Sprintf("Slot number %d vacated, the car with vehicle registration number \"%s\" left the space, the driver of the car was of age %d", slot, vehicleNumber, age)
 	return response, nil
 }
 

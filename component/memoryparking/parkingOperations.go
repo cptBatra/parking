@@ -55,6 +55,7 @@ func (pl *parkingLot) VehicleForAge(age int) string {
 func (pl *parkingLot) LeaveSlot(id int) (vehicleNumber string, age int, err error) {
 	if id > pl.size || id <= 0 {
 		err = errors.New(fmt.Sprintf("Invalid Slot Number %d", id))
+		return
 	}
 	if pl.slots[id-1].id == 0 {
 		err = errors.New(fmt.Sprintf("Slot with id %d is already empty", id))

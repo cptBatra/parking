@@ -196,3 +196,47 @@ func TestLeaveSlot(t *testing.T) {
 		})
 	}
 }
+
+func TestCreateParkingLot(t *testing.T) {
+
+	tests := []struct {
+		name    string
+		args    []string
+		wantres string
+		wantErr bool
+	}{
+		{
+			name:    "failure",
+			args:    []string{"ab"},
+			wantErr: true,
+		},
+		{
+			name:    "failure",
+			args:    []string{"-1"},
+			wantErr: true,
+		},
+		{
+			name:    "failure",
+			args:    []string{"0"},
+			wantErr: true,
+		},
+		{
+			name:    "failure",
+			args:    []string{"2.4"},
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			res, err := leaveSlot(tt.args)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("createParkingLot() error: Got error = %v, Want error = %v", err, tt.wantErr)
+				return
+			}
+			if res.Message != tt.wantres {
+				t.Errorf("createParkingLot() error: Want %v, Got %v", tt.wantres, res.Message)
+			}
+		})
+	}
+}

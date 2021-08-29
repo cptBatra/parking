@@ -13,7 +13,7 @@ import (
 // For Example: we can read from config file which storage to use and modify the return value accordingly
 // like return sqlparking.NewSQLParkingLot()
 
-func GetParking() model.ParkingOperator {
+func GetParking() (model.ParkingOperator, error) {
 	return memoryparking.NewInMemoryParkingLot()
 }
 

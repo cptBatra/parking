@@ -17,8 +17,11 @@ type spot struct {
 	driverAge     int
 }
 
-func NewInMemoryParkingLot() *parkingLot {
-	return parking
+func NewInMemoryParkingLot() (*parkingLot, error) {
+	if parking == nil {
+		return nil, errors.New("Storage Error: Parking Lot Doesn't Exist")
+	}
+	return parking, nil
 }
 
 func InitParkingLot(n int) error {

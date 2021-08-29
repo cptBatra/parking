@@ -1,6 +1,9 @@
 package memoryparking
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 var parking *parkingLot
 
@@ -42,7 +45,7 @@ func InitParkingLot(n int) error {
 
 func (pl *parkingLot) findCarLocation(licensePlate string) (bool, int) {
 	for _, v := range pl.slots {
-		if licensePlate == v.vehicleNumber {
+		if strings.ToLower(licensePlate) == strings.ToLower(v.vehicleNumber) {
 			return true, v.id
 		}
 	}

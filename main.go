@@ -19,7 +19,7 @@ func main() {
 	var o model.Response
 	for _, v := range insSet {
 		o, err = controller.RouteInstruction(v)
-		if err != nil && strings.Contains(err.Error(), "Could not create Parking Lot") {
+		if err != nil && strings.Contains(err.Error(), "Storage Error") {
 			exit(err.Error())
 		}
 		if err != nil {

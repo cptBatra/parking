@@ -12,7 +12,7 @@ func createParkingLot(request []string) (model.Response, error) {
 	response := model.Response{}
 	size, err := strconv.Atoi(request[0])
 	if err != nil || size <= 0 {
-		return response, errors.New(fmt.Sprintf("Could not create Parking Lot, Invalid size: %v", request[0]))
+		return response, errors.New(fmt.Sprintf("Storage Error: Could not create Parking Lot, Invalid size: %v", request[0]))
 	}
 	err = repository.InitParking(size)
 	if err != nil {
@@ -36,7 +36,10 @@ func parkCar(request []string) (model.Response, error) {
 		return response, errors.New(fmt.Sprintf("Invalid Driver Age %v", request[2]))
 	}
 
-	pl := repository.GetParking()
+	pl, err := repository.GetParking()
+	if err != nil {
+		return response, err
+	}
 	slot, err := pl.ParkCar(licensePlate, age)
 	if err != nil {
 		return response, err
@@ -52,7 +55,10 @@ func slotForAge(request []string) (model.Response, error) {
 		return response, errors.New(fmt.Sprintf("Invalid age: %v", request[0]))
 	}
 
-	pl := repository.GetParking()
+	pl, err := repository.GetParking()
+	if err != nil {
+		return response, err
+	}
 	s := pl.SlotForAge(age)
 	if len(s) < 1 {
 		return response, errors.New(fmt.Sprintf("No parked car matches the query"))
@@ -66,7 +72,10 @@ func slotForVehicle(request []string) (model.Response, error) {
 	if len(request[0]) < 13 {
 		return response, errors.New("Invalid License Plate")
 	}
-	pl := repository.GetParking()
+	pl, err := repository.GetParking()
+	if err != nil {
+		return response, err
+	}
 	found, slot := pl.SearchCar(request[0])
 	if !found {
 		return response, errors.New("No parked car matches the query")
@@ -78,10 +87,13 @@ func slotForVehicle(request []string) (model.Response, error) {
 func leaveSlot(request []string) (model.Response, error) {
 	response := model.Response{}
 	slot, err := strconv.Atoi(request[0])
-	if err != nil {
+	if err != nil || slot <= 0 {
 		return response, errors.New(fmt.Sprintf("Invalid slot: %v", request[0]))
 	}
-	pl := repository.GetParking()
+	pl, err := repository.GetParking()
+	if err != nil {
+		return response, err
+	}
 	vehicleNumber, age, err := pl.LeaveSlot(slot)
 	if err != nil {
 		return response, err
@@ -97,7 +109,10 @@ func vehicleForAge(request []string) (model.Response, error) {
 	if err != nil || age <= 0 {
 		return response, errors.New(fmt.Sprintf("Invalid age: %v", request[0]))
 	}
-	pl := repository.GetParking()
+	pl, err := repository.GetParking()
+	if err != nil {
+		return response, err
+	}
 	s := pl.VehicleForAge(age)
 	if len(s) < 1 {
 		return response, errors.New(fmt.Sprintf("No parked car matches the query"))

@@ -87,7 +87,7 @@ func slotForVehicle(request []string) (model.Response, error) {
 func leaveSlot(request []string) (model.Response, error) {
 	response := model.Response{}
 	slot, err := strconv.Atoi(request[0])
-	if err != nil {
+	if err != nil || slot <= 0 {
 		return response, errors.New(fmt.Sprintf("Invalid slot: %v", request[0]))
 	}
 	pl, err := repository.GetParking()

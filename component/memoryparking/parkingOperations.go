@@ -47,7 +47,7 @@ func (pl *parkingLot) VehicleForAge(age int) string {
 		if len(s) != 0 {
 			s += ","
 		}
-		s += pl.slots[i].vehicleNumber
+		s += "\"" + pl.slots[i].vehicleNumber + "\""
 	}
 	return s
 }
